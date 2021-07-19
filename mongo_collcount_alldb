@@ -50,15 +50,14 @@ def getCollstats():
                         if coll.startswith('system.'):
                                 continue
                         stats = db.command("collstats", coll)
-                        collname = coll.replace('.', '_')
-                        if collname not in stats_tmp:
-                                stats_tmp[collname] = 0
-                        stats_tmp[collname] += int(stats['count'])
+                        if dbname not in stats_tmp:
+                                stats_tmp[dbname] = 0
+                        stats_tmp[dbname] += int(stats['count'])
 
         con.close()
 
-        for collname, stats in sorted(stats_tmp.items()):
-                yield ("%s_count" % collname, stats,)
+        for db, stats in sorted(stats_tmp.items()):
+                yield ("%s" % db, stats,)
 
 
 def doData():

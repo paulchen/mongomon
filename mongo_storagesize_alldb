@@ -51,20 +51,19 @@ def getCollstats():
                         if coll.startswith('system.'):
                                 continue
                         stats = db.command("collstats", coll)
-                        collname = coll.replace('.', '_')
-                        if collname not in stats_tmp:
-                                stats_tmp[collname] = 0
-                        stats_tmp[collname] += int(stats['storageSize'])
+                        if dbname not in stats_tmp:
+                                stats_tmp[dbname] = 0
+                        stats_tmp[dbname] += int(stats['storageSize'])
 
         con.close()
 
-        for collname, stats in sorted(stats_tmp.items()):
-                yield ("%s_size" % collname, stats,)
+        for dbname, stats in sorted(stats_tmp.items()):
+                yield ("%s" % dbname, stats,)
 
 
 def doData():
-	for coll, stats in getCollstats():
-		print("%s.value %s" % (coll, stats))
+	for db, stats in getCollstats():
+		print("%s.value %s" % (db, stats))
 
 
 def doConfig():
