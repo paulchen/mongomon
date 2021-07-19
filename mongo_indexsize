@@ -50,7 +50,7 @@ def getCollstats():
         if coll.startswith('system.'):
             continue
         stats = db.command("collstats", coll)
-        yield ("%s_size" % coll.replace('.', '_'), int(stats['totalIndexSize']),)
+        yield ("%s" % coll.replace('.', '_'), int(stats['totalIndexSize']),)
 
     con.close()
 
